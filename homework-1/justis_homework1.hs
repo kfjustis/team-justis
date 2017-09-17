@@ -44,17 +44,20 @@ prob3 f g d = (f d, g d)
 prob4 :: Bool -> a -> a -> a
 prob4 b r1 r2 =
   if b then r1
-  else r2 
-
+  else r2
 
 -- prob5
 -- @type   
 -- @param  Integer
 -- @output Bool
 -- @description:
-prob5 :: a
-prob5 = undefined
-
+{-Source: https://en.wikipedia.org/wiki/Leap_year#Algorithm -}
+prob5 :: Integer -> Bool
+prob5 num =
+  if num `mod` 4 /= 0 then False
+  else if num `mod` 100 /= 0 then True
+  else if num `mod` 400 /= 0 then False
+  else True
 
 -- All Unit Tests Below This Line --
 -- Don't touch anything below this line
