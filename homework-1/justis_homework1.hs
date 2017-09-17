@@ -41,8 +41,10 @@ prob3 f g d = (f d, g d)
 -- @param  input of type a
 -- @output output of type a
 -- @description:
-prob4 :: a
-prob4 = undefined
+prob4 :: Bool -> a -> a -> a
+prob4 b r1 r2 =
+  if b then r1
+  else r2 
 
 
 -- prob5
