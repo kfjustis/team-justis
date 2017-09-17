@@ -5,8 +5,14 @@ import Test.Hspec -- <- DO NOT REMOVE THIS
 -- @param  Char
 -- @output Char
 -- @description:
-prob1 :: a
-prob1 = undefined
+prob1 :: Char -> Char
+prob1 'z' = 'a'
+prob1 'Z' = 'A'
+prob1 c
+  | c `elem` ['a'..'z'] = succ c
+  | c `elem` ['A'..'Z'] = succ c
+  | otherwise           = c
+
 -- Function prob2
 -- @type   
 -- @param  Char
@@ -14,6 +20,8 @@ prob1 = undefined
 -- @description:
 prob2 :: a
 prob2 = undefined
+
+
 -- Function prob3
 -- @type   
 -- @param  function of type a -> b
@@ -23,6 +31,8 @@ prob2 = undefined
 -- @description:
 prob3 :: a
 prob3 = undefined
+
+
 -- prob4
 -- @type   
 -- @param  Bool
@@ -32,6 +42,8 @@ prob3 = undefined
 -- @description:
 prob4 :: a
 prob4 = undefined
+
+
 -- prob5
 -- @type   
 -- @param  Integer
