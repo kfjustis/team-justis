@@ -31,9 +31,8 @@ prob2 d =
 -- @param  input of type a
 -- @output tuple of type (b, c)
 -- @description:
-prob3 :: a
-prob3 = undefined
-
+prob3 :: (a -> b) -> (a -> c) -> a -> (b, c)
+prob3 f g d = (f d, g d)
 
 -- prob4
 -- @type   
