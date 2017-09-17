@@ -18,9 +18,11 @@ prob1 c
 -- @param  Char
 -- @output Int
 -- @description:
-prob2 :: a
-prob2 = undefined
-
+{-Source: https://stackoverflow.com/questions/43693037/how-to-convert-char-to-int-in-haskell-without-import-anything -}
+prob2 :: Char -> Int
+prob2 d =
+  if d `notElem` ['0'..'9'] then -1
+  else fromEnum d - fromEnum '0'
 
 -- Function prob3
 -- @type   
