@@ -5,15 +5,36 @@ import Test.Hspec -- <- DO NOT REMOVE THIS
 -- @param  Char
 -- @output Char
 -- @description:
-prob1 :: a
-prob1 = undefined
+prob1 :: Char -> Char
+prob1 x 
+	| x `elem` ['z'] = 'a'
+	| x `elem` ['Z'] = 'A'
+	| x `elem` ['a'..'z'] = succ(x)
+	| x `elem` ['A'..'Y'] = succ(x)
+	| otherwise = x
 -- Function prob2
 -- @type   
 -- @param  Char
 -- @output Int
 -- @description:
-prob2 :: a
-prob2 = undefined
+{-prob2 :: Char -> Int
+prob2 x
+    | x `elem` ['0'..'9'] = 1
+    | otherwise = -1
+-}
+prob2 :: Char -> Int
+prob2 x 
+	| x == '0' = 0
+	| x == '1' = 1
+	| x == '2' = 2
+	| x == '3' = 3
+	| x == '4' = 4
+	| x == '5' = 5
+	| x == '6' = 6
+	| x == '7' = 7
+	| x == '8' = 8
+	| x == '9' = 9
+	| otherwise = -1
 -- Function prob3
 -- @type   
 -- @param  function of type a -> b
@@ -21,8 +42,8 @@ prob2 = undefined
 -- @param  input of type a
 -- @output tuple of type (b, c)
 -- @description:
-prob3 :: a
-prob3 = undefined
+prob3 :: (a -> b) -> (a -> c) -> a -> (b,c)
+prob3 f1 f2 i = (f1 i, f2 i)
 -- prob4
 -- @type   
 -- @param  Bool
@@ -30,16 +51,21 @@ prob3 = undefined
 -- @param  input of type a
 -- @output output of type a
 -- @description:
-prob4 :: a
-prob4 = undefined
+prob4 :: Bool -> a -> a -> a
+prob4 b x y
+	| b == True = x
+	| otherwise = y
 -- prob5
 -- @type   
 -- @param  Integer
 -- @output Bool
 -- @description:
-prob5 :: a
-prob5 = undefined
-
+prob5 :: Integer -> Bool
+prob5 x
+	| x `mod` 4 /= 0 = False
+	| x `mod` 100 /= 0 = True
+	| x `mod` 400 /= 0 = False
+	| otherwise = True
 
 -- All Unit Tests Below This Line --
 -- Don't touch anything below this line
@@ -129,4 +155,4 @@ test_all_probs = do
   test_prob5
 
 
-                     
+                         
