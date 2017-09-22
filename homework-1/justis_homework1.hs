@@ -1,10 +1,10 @@
 module Homework1 where
 import Test.Hspec -- <- DO NOT REMOVE THIS
 -- Function prob1
--- @type   
+-- @type
 -- @param  Char
 -- @output Char
--- @description:
+-- @description: Function takes in a letter of type Char and returns the next letter in the alphabet, in the case the the Char is not in the alphabet (a.k.a. numbers/special characters) the function returns the given Char.
 prob1 :: Char -> Char
 prob1 'z' = 'a'
 prob1 'Z' = 'A'
@@ -14,50 +14,49 @@ prob1 c
   | otherwise           = c
 
 -- Function prob2
--- @type   
+-- @type
 -- @param  Char
 -- @output Int
--- @description:
-{-Source: https://stackoverflow.com/questions/43693037/how-to-convert-char-to-int-in-haskell-without-import-anything -}
+-- @description: Function takes in a digit of type Char and returns the digit as an Int. This function uses the read function and an explicit type annotation that tells read to convert its input into an Int. Initially I tried reading the output from the "Show" function since read needs to take in a string as opposed to a char, but the output added extraneous quotation marks that messed with the parser. Later we found the replicate function which takes in an input and "replicates" the input n times (in this case, 1 time). The string returned has no quotation marks and thus is readable by "read".
 prob2 :: Char -> Int
-prob2 d =
-  if d `notElem` ['0'..'9'] then -1
-  else fromEnum d - fromEnum '0'
+prob2 x
+  | x `elem` ['0'..'9'] = read(replicate 1 x) :: Int
+  | otherwise = (-1)
 
 -- Function prob3
--- @type   
+-- @type
 -- @param  function of type a -> b
 -- @param  function of type a -> c
 -- @param  input of type a
 -- @output tuple of type (b, c)
--- @description:
+-- @description: Function takes in two functions from above and returns the values returned from the functions used as input.
 prob3 :: (a -> b) -> (a -> c) -> a -> (b, c)
 prob3 f g d = (f d, g d)
 
 -- prob4
--- @type   
+-- @type
 -- @param  Bool
 -- @param  input of type a
 -- @param  input of type a
 -- @output output of type a
--- @description:
+-- @description: Takes in a bool and two other values. If true return the first value if false return the second value.
 prob4 :: Bool -> a -> a -> a
-prob4 b r1 r2 =
-  if b then r1
-  else r2
+prob4 b x y
+    | b == True = x
+    | otherwise = y
 
 -- prob5
--- @type   
+-- @type
 -- @param  Integer
 -- @output Bool
 -- @description:
 {-Source: https://en.wikipedia.org/wiki/Leap_year#Algorithm -}
 prob5 :: Integer -> Bool
-prob5 num =
-  if num `mod` 4 /= 0 then False
-  else if num `mod` 100 /= 0 then True
-  else if num `mod` 400 /= 0 then False
-  else True
+prob5 year
+    | year `mod` 4   /= 0  = False
+    | year `mod` 100 /= 0  = True
+    | year `mod` 400 /= 0  = False
+    | otherwise            = True
 
 -- All Unit Tests Below This Line --
 -- Don't touch anything below this line
@@ -145,6 +144,3 @@ test_all_probs = do
   test_prob3
   test_prob4
   test_prob5
-
-
-                     
