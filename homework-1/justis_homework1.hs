@@ -49,7 +49,7 @@ prob4 b x y
 -- @type
 -- @param  Integer
 -- @output Bool
--- @description:
+-- @description: Function takes an Integer and returns a Bool. If the Integer value is a leap year, the bool returned is True, otherwise it is False.
 {-Source: https://en.wikipedia.org/wiki/Leap_year#Algorithm -}
 prob5 :: Integer -> Bool
 prob5 year
