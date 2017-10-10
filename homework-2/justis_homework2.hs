@@ -1,37 +1,42 @@
 module Homework2 where
 import Test.QuickCheck
 -- Function prob1
--- @type   
--- @param  
+-- @type
+-- @param
 -- @output
 -- @description:
 -- listComp f p xs = [ f x | x <- xs, p x]
 prob1 :: a
 prob1 = undefined
 -- Function prob2
--- @type   
--- @param  
+-- @type
+-- @param
 -- @output
 -- @description:
-prob2 :: a
-prob2 = undefined
+prob2 :: Integer -> [Integer]
+prob2 value =
+    if value < 0 then []
+    else
+        map (\x -> read [x]::Integer) (show value)
+
+
 -- Function prob3
--- @type   
--- @param  
+-- @type
+-- @param
 -- @output
 -- @description:
 prob3 :: a
 prob3 = undefined
 -- Function prob4
--- @type   
--- @param  
+-- @type
+-- @param
 -- @output
 -- @description:
 prob4 :: a
 prob4 = undefined
 -- Function prob5
--- @type   
--- @param  
+-- @type
+-- @param
 -- @output
 -- @description:
 prob5 :: a
@@ -41,10 +46,10 @@ prob5 = undefined
 
 
 
-        
----------------------------------------------              
+
+---------------------------------------------
 --               Unit Tests                --
----------------------------------------------  
+---------------------------------------------
 test_prob1 :: IO ()
 test_prob1  = do
   putStrLn "Problem 1 Results:"
@@ -143,13 +148,13 @@ prob5_test1 = quickCheckWith (stdArgs {maxSuccess = 1000}) prob5_property
   where
     prob5_property :: [Integer] -> Bool
     prob5_property xs = prob5 (map (abs) xs) == go' xs
-    go' :: [Integer] -> Integer 
+    go' :: [Integer] -> Integer
     go' is = go1 (map (abs) is) 0
       where go1 :: [Integer] -> Integer -> Integer
             go1 [] n     = n
             go1 (x:xs) n | (x < 10)   = go1 xs (x + n)
                          | (x > 9)    = go1 xs ((sum (go2 x)) + n)
-                         | otherwise  = go1 xs n 
+                         | otherwise  = go1 xs n
             go2 :: Integer -> [Integer]
             go2 x
               | x < 0      = []
