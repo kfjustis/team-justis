@@ -6,10 +6,15 @@ import Test.QuickCheck
 -- @type
 -- @param
 -- @output
--- @description:
+{- @description:
+    Very straightforward. Map takes a function and a list, so we give it the filtered list using
+    the given 'p' comparator function.
+-}
 -- listComp f p xs = [ f x | x <- xs, p x]
-prob1 :: a
-prob1 = undefined
+-- prob1 :: a
+-- prob1 = undefined
+prob1 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
+prob1 f p xs = map f (filter p xs)
 
 
 -- Function prob2
