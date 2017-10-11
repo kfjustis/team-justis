@@ -41,9 +41,22 @@ prob2 value
 -- @type
 -- @param
 -- @output
--- @description:
-prob3 :: a
-prob3 = undefined
+{- @description:
+    Example:
+    1) (123)
+    2) 3:(12)
+    3) 3:2:(1)
+    4) 3:2:1
+
+    This works the same way as problem 2 except instead of appending items to the end of a list,
+    it works by always appending the remainder to the head of the list.
+-}
+prob3 :: Integer -> [Integer]
+prob3 value
+    | value < 0 = []
+    | value < 10 = [value]
+    | otherwise = (value `mod` 10) : prob3 (value `div` 10)
+
 -- Function prob4
 -- @type
 -- @param
