@@ -12,13 +12,30 @@ prob1 = undefined
 -- @type
 -- @param
 -- @output
--- @description:
-prob2 :: Integer -> [Integer]
-prob2 value =
-    if value < 0 then []
-    else
-        map (\x -> read [x]::Integer) (show value)
+{- @description:
+    Example: 332
+    1) 332 div 10 -> 33
+       332 mod 10 -> [2]
+    2) 33 div 10 -> 3
+       33 mod 10 -> [3] -> [3, 2]
+    3) 3 div 10 -> 0 -> prob2 (0) -> []
+       3 mod 10 -> 3 -> [3, 3, 2]
+    Final: [] ++ [3, 3, 2] -> [3, 3, 2]
 
+    Basically, for values over 10, we recursively divide by 10. This value is used to determine
+    if we need to divide again. If not, we've reached some value < 0 and cons the empty list, or
+    we reach a list with a single value. Before that however, we mod the initial value with 10
+    to return the remainder. This gets added to the list immediately because we know that each digit
+    should be some value less than 10. For the final result, the terminated left hand side is cons'd
+    with the list that was built up on the right hand side.
+
+    Source: https://stackoverflow.com/questions/3963269/split-a-number-into-its-digits-with-haskell
+-}
+prob2 :: Integer -> [Integer]
+prob2 value
+    | value < 0 = []
+    | value < 10 = [value]
+    | otherwise = prob2 (value `div` 10) ++ [value `mod` 10]
 
 -- Function prob3
 -- @type
