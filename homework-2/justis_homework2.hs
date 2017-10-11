@@ -1,5 +1,7 @@
 module Homework2 where
 import Test.QuickCheck
+
+
 -- Function prob1
 -- @type
 -- @param
@@ -8,6 +10,8 @@ import Test.QuickCheck
 -- listComp f p xs = [ f x | x <- xs, p x]
 prob1 :: a
 prob1 = undefined
+
+
 -- Function prob2
 -- @type
 -- @param
@@ -37,6 +41,7 @@ prob2 value
     | value < 10 = [value]
     | otherwise = prob2 (value `div` 10) ++ [value `mod` 10]
 
+
 -- Function prob3
 -- @type
 -- @param
@@ -57,24 +62,43 @@ prob3 value
     | value < 10 = [value]
     | otherwise = (value `mod` 10) : prob3 (value `div` 10)
 
+
 -- Function prob4
 -- @type
 -- @param
 -- @output
--- @description:
-prob4 :: a
-prob4 = undefined
+{- @description:
+    Looks at each element of the passed list. If the current list it is looking at is even in length,
+    then me want to multiply the left most value and append that value to the new list. If it's not,
+    we just take the head and append it to the new list leaving it untouched. This continues for the
+    whole list resulting in a new list where every other value is multiplied by two from the right.
+-}
+prob4 :: [Integer] -> [Integer]
+prob4 [] = []
+prob4 (x:xs) =
+    if (length (x:xs)) `mod` 2 == 0 then
+        [x * 2] ++ prob4 xs
+    else
+        [x] ++ prob4 xs
+
+
 -- Function prob5
 -- @type
 -- @param
 -- @output
--- @description:
-prob5 :: a
-prob5 = undefined
-
-
-
-
+{- @description:
+    This also runs through each element in the list and does a check. If the head of the list is between
+    0-9, then it adds that value to the sum and runs the function again on the rest of the list. If the head
+    is greater than 10, then we pass it off to prob2 to separate its digits and append that smaller list to the
+    end of the original list. With that new list, we recursively call prob5 again until all the values in the first
+    list have been processed, which leaves us with a sum of the digits.
+-}
+prob5 :: [Integer] -> Integer
+prob5 [] = 0
+prob5 (x:xs)
+    | x > 0 && x < 10 = x + prob5 xs
+    | x >= 10         = prob5 (xs ++ prob2 x)
+    | otherwise       = 0 + prob5 xs
 
 
 ---------------------------------------------
