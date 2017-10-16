@@ -7,13 +7,17 @@ import Test.QuickCheck
 -- @param
 -- @output
 {- @description:
-    Very straightforward. Map takes a function and a list, so we give it the filtered list using
-    the given 'p' comparator function.
+    Re-writing listComp using the functions map and filter. map takes in a function and a list.
+    filter takes in a predicate and a list. So we check for an empty list, and if its not empty
+    we give the results from filter p xs to map to use with the function f.
+
+    Written by Calvin Wallace
 -}
 -- listComp f p xs = [ f x | x <- xs, p x]
 -- prob1 :: a
 -- prob1 = undefined
 prob1 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
+prob1 _ _ [] = []
 prob1 f p xs = map f (filter p xs)
 
 
@@ -39,12 +43,14 @@ prob1 f p xs = map f (filter p xs)
     with the list that was built up on the right hand side.
 
     Source: https://stackoverflow.com/questions/3963269/split-a-number-into-its-digits-with-haskell
+
+    Written by Ryon Siebel
 -}
 prob2 :: Integer -> [Integer]
-prob2 value
-    | value < 0 = []
-    | value < 10 = [value]
-    | otherwise = prob2 (value `div` 10) ++ [value `mod` 10]
+prob2 num
+    | num < 0   = []
+    | num < 10  = [ num ]
+    | otherwise = prob2 ( num `div` 10 ) ++ [ num `mod` 10 ]
 
 
 -- Function prob3
@@ -60,12 +66,14 @@ prob2 value
 
     This works the same way as problem 2 except instead of appending items to the end of a list,
     it works by always appending the remainder to the head of the list.
+
+    Written by Nathan Stahl
 -}
 prob3 :: Integer -> [Integer]
-prob3 value
-    | value < 0 = []
-    | value < 10 = [value]
-    | otherwise = (value `mod` 10) : prob3 (value `div` 10)
+prob3 x
+    |x < 0 = []
+    |x < 10 = [x]
+    |otherwise = [x `mod` 10] ++ prob2(x `div` 10)
 
 
 -- Function prob4
@@ -77,6 +85,8 @@ prob3 value
     then me want to multiply the left most value and append that value to the new list. If it's not,
     we just take the head and append it to the new list leaving it untouched. This continues for the
     whole list resulting in a new list where every other value is multiplied by two from the right.
+
+    Written by Kynan Justis
 -}
 prob4 :: [Integer] -> [Integer]
 prob4 [] = []
@@ -97,6 +107,8 @@ prob4 (x:xs) =
     is greater than 10, then we pass it off to prob2 to separate its digits and append that smaller list to the
     end of the original list. With that new list, we recursively call prob5 again until all the values in the first
     list have been processed, which leaves us with a sum of the digits.
+
+    Written by Kynan Justis
 -}
 prob5 :: [Integer] -> Integer
 prob5 [] = 0
