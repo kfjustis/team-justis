@@ -13,15 +13,21 @@ prob1 f c xs = map f (filter c xs)
 -- @param  
 -- @output
 -- @description:
-prob2 :: a
-prob2 = undefined
+prob2 :: Integer -> [Integer]
+prob2 x 
+    |x < 0 = []
+    |x < 10 = [x]
+    |otherwise = prob2 (x `div` 10) ++ [x `mod` 10]
 -- Function prob3
 -- @type   
 -- @param  
 -- @output
 -- @description:
-prob3 :: a
-prob3 = undefined
+prob3 :: Integer -> [Integer]
+prob3 x
+    |x < 0 = []
+    |x < 10 = [x]
+    |otherwise = [x `mod` 10] ++ prob2(x `div` 10)
 -- Function prob4
 -- @type   
 -- @param  
