@@ -45,8 +45,12 @@ prob4 (x:xs)
 -- @param  
 -- @output
 -- @description:
-prob5 :: a
-prob5 = undefined
+prob5 :: [Integer] -> Integer
+prob5 [] = 0
+prob5 (x:xs)
+    | x >= 10         = prob5 (prob2 x ++ xs)
+    | x > 0 && x < 10 = x + prob5 xs
+    | otherwise = 0 + prob5 xs
 
 
 
