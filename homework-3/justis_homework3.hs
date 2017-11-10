@@ -6,6 +6,22 @@ import Test.Hspec
 import RPNAST
 
 
+prob1 :: String -> PExp
+prob1 (x:xs)
+     | x == ' ' = prob1(xs) 
+     | x == '*' && length(xs) > 0 = [Mul]  ++ prob1(xs)
+     | x == '-' && length(xs) > 0 = [Minus]  ++ prob1(xs)
+     | x == '+' && length(xs) > 0 = [Plus]  ++ prob1(xs)
+     | x == '/' && length(xs) > 0 = [IntDiv]  ++ prob1(xs)
+     | x == '*' && length(xs) == 0 = [Mul]  
+     | x == '-' && length(xs) == 0 = [Minus]  
+     | x == '+' && length(xs) == 0 = [Plus]  
+     | x == '/' && length(xs) == 0 = [IntDiv]
+     | otherwise && length(xs) > 0 = [Val (read (x:xs) :: Int)]     
+
+
+
+
 prob1    :: a
 prob1    = undefined
 
