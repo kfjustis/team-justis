@@ -17,8 +17,14 @@ prob1 a = map stringToOp (words a)
         | x == '/' = IntDiv
         | otherwise = (Val (read (x:xs) :: Int))
 
-prob2 :: a
-prob2 = undefined
+prob2 :: PExp -> Int
+--prob2 [Val a] = a
+{-prob2 (x:xs) =
+    if length (x:xs) >= 1 then
+        if (x == Val) then
+            x
+    else
+        0-}
 
 prob3 :: a
 prob3 = undefined
