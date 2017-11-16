@@ -5,7 +5,7 @@ module Homework3 where
 import Test.Hspec
 import RPNAST
 
-
+-- Based on Nathan's implementation
 prob1 :: String -> PExp
 prob1 a = map stringToOp (words a)
   where
@@ -17,6 +17,7 @@ prob1 a = map stringToOp (words a)
         | x == '/' = IntDiv
         | otherwise = (Val (read (x:xs) :: Int))
 
+-- Shout out to Tom for the help
 prob2 :: PExp -> Int
 prob2 a = hstack a []
     where
@@ -29,14 +30,6 @@ prob2 a = hstack a []
         hstack (IntDiv:rest) (r:l:vals) = hstack rest ((l `div` r):vals)
         hstack [] [i]                   = i
         hstack _ _                      = errorWithoutStackTrace "Unexpected case encountered"
-
---prob2 [Val a] = a
-{-prob2 (x:xs) =
-    if length (x:xs) >= 1 then
-        if (x == Val) then
-            x
-    else
-        0-}
 
 prob3 :: a
 prob3 = undefined
