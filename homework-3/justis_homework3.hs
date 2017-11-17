@@ -21,15 +21,21 @@ prob1 (x:xs)
 
 
 
-
-prob1    :: a
-prob1    = undefined
-
 prob2    :: a
 prob2    = undefined
 
-prob3    :: a
-prob3    = undefined
+prob3 :: PExp -> RPNResult
+prob3 a = hstack a []
+    where
+        hstack :: PExp -> [Int] -> RPNResult
+        hstack ((Val i):rest) vals      = hstack rest (i:vals)
+        hstack (Plus:rest) (r:l:vals)   = hstack rest ((l + r):vals)
+        hstack (Minus:rest) (r:l:vals)  = hstack rest ((l - r):vals)
+        hstack (Mul:rest) (r:l:vals)    = hstack rest ((l * r):vals)
+        hstack (IntDiv:rest) (0:l:vals) = Failure DivByZero
+        hstack (IntDiv:rest) (r:l:vals) = hstack rest ((l `div` r):vals)
+        hstack [] [i]                   = Success i
+        hstack _ _                      = Failure BadSyntax
 
 prob4    :: a
 prob4    = undefined
