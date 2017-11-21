@@ -47,7 +47,7 @@ prob3 a = hstack' a []
         hstack' [] [i]                    = Success i
         hstack' _ _                       = Failure BadSyntax
 
--- Shout out to Tom for the extra help over break
+-- Shout out to Nathan and Tom for the extra help over break
 prob4 :: PExp -> Result String String
 prob4 a = bstr a []
     where
