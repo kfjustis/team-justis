@@ -47,22 +47,19 @@ prob3 a = hstack' a []
         hstack' [] [i]                    = Success i
         hstack' _ _                       = Failure BadSyntax
 
-{-prob4 :: a
-prob4 = undefined-}
 
-prob4 :: PExp -> Result [Char] [Char]
-prob4 a = bstr a ""
+prob4 :: PExp -> Result String String
+prob4 a = bstr a []
     where
-        bstr :: PExp -> [Char] -> Result [Char] [Char]
-        --bstr ((Val i):rest) outs = bstr rest ()
-        --bstr a str = undefined
-        bstr ((Val i):rest) str = bstr rest ((show i) ++ str)
-        bstr (Plus:rest) str    = bstr rest ("(" ++ (tail str ++ " + " ++ ((take 1 str) ++ ")")))
-        bstr (Minus:rest) str   = bstr rest ("(" ++ (tail str ++ " - " ++ ((take 1 str) ++ ")")))
-        bstr (Mul:rest) str     = bstr rest ("(" ++ (tail str ++ " * " ++ ((take 1 str) ++ ")")))
-        bstr (IntDiv:rest) str  = bstr rest ("(" ++ (tail str ++ " / " ++ ((take 1 str) ++ ")")))
-        --bstr [] str             = Success ("(" ++ str)
-        bstr [] str             = Success (str)
+        bstr :: PExp -> [String] -> Result String String
+        bstr ((Val i):rest) str         = bstr rest ((show i):str)
+        bstr (Plus:rest) (r:l:ops)      = bstr rest (("(" ++ l ++ " + " ++ r ++ ")"):ops)
+        bstr (Minus:rest) (r:l:ops)     = bstr rest (("(" ++ l ++ " - " ++ r ++ ")"):ops)
+        bstr (Mul:rest) (r:l:ops)       = bstr rest (("(" ++ l ++ " * " ++ r ++ ")"):ops)
+        bstr (IntDiv:rest) ("0":l:ops)  = Failure "DivByZero"
+        bstr (IntDiv:rest) (r:l:ops)    = bstr rest (("(" ++ l ++ " / " ++ r ++ ")"):ops)
+        bstr [] [x]                     = Success x
+        bstr _ _                        = Failure "BadSyntax"
 
 -- Write your Hspec Tests below
 test_prob1 :: IO ()
