@@ -106,3 +106,11 @@ test_prob4 = hspec $ do
             prob4 [Val 2] `shouldBe` Success "2"
         it "returns Failure \"BadSyntax\" when given [Plus]" $ do
             prob4 [Plus] `shouldBe` Failure "BadSyntax"
+
+-- Thanks Tom for Homework 1 and Homework 2
+test_probs :: IO ()
+test_probs = do
+   test_prob1
+   test_prob2
+   test_prob3
+   test_prob4
