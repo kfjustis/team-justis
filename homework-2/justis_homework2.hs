@@ -14,6 +14,10 @@ import Test.QuickCheck
     Written by Calvin Wallace
 -}
 -- listComp f p xs = [ f x | x <- xs, p x]
+<<<<<<< HEAD
+prob1 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
+prob1 f c xs = map f (filter c xs)
+=======
 -- prob1 :: a
 -- prob1 = undefined
 prob1 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
@@ -21,10 +25,19 @@ prob1 _ _ [] = []
 prob1 f p xs = map f (filter p xs)
 
 
+>>>>>>> 991fc69d0d3853913b5d6b27f898436565c59e07
 -- Function prob2
 -- @type
 -- @param
 -- @output
+<<<<<<< HEAD
+-- @description:
+prob2 :: Integer -> [Integer]
+prob2 x 
+    |x < 0 = []
+    |x < 10 = [x]
+    |otherwise = prob2 (x `div` 10) ++ [x `mod` 10]
+=======
 {- @description:
     Example: 332
     1) 332 div 10 -> 33
@@ -53,10 +66,14 @@ prob2 num
     | otherwise = prob2 ( num `div` 10 ) ++ [ num `mod` 10 ]
 
 
+>>>>>>> 991fc69d0d3853913b5d6b27f898436565c59e07
 -- Function prob3
 -- @type
 -- @param
 -- @output
+<<<<<<< HEAD
+-- @description:
+=======
 {- @description:
     Example:
     1) (123)
@@ -69,17 +86,42 @@ prob2 num
 
     Written by Nathan Stahl
 -}
+>>>>>>> 991fc69d0d3853913b5d6b27f898436565c59e07
 prob3 :: Integer -> [Integer]
 prob3 x
     |x < 0 = []
     |x < 10 = [x]
     |otherwise = [x `mod` 10] ++ prob2(x `div` 10)
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 991fc69d0d3853913b5d6b27f898436565c59e07
 -- Function prob4
 -- @type
 -- @param
 -- @output
+<<<<<<< HEAD
+-- @description:
+--prob4 :: a
+--prob4 = undefined
+prob4 :: [Integer] -> [Integer]
+prob4 [] = []
+prob4 (x:xs)
+    | length(x:xs) `mod` 2 == 0 = [2*x] ++ prob4 xs
+    | otherwise = [x] ++ prob4 xs
+-- Function prob5
+-- @type   
+-- @param  
+-- @output
+-- @description:
+prob5 :: [Integer] -> Integer
+prob5 [] = 0
+prob5 (x:xs)
+    | x >= 10         = prob5 (prob2 x ++ xs)
+    | x > 0 && x < 10 = x + prob5 xs
+    | otherwise = 0 + prob5 xs
+=======
 {- @description:
     Looks at each element of the passed list. If the current list it is looking at is even in length,
     then me want to multiply the left most value and append that value to the new list. If it's not,
@@ -95,6 +137,7 @@ prob4 (x:xs) =
         [x * 2] ++ prob4 xs
     else
         [x] ++ prob4 xs
+>>>>>>> 991fc69d0d3853913b5d6b27f898436565c59e07
 
 
 -- Function prob5

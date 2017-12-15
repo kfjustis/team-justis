@@ -86,6 +86,31 @@ eval (Function x body) env          = ClosureV x body env
 -----------------------------------------------------------------
 eval (Declare x [(x,exp)] body) env = eval body newEnv         -- This clause needs to be changed.
   where newEnv = (x, eval exp env) : env                       --
+        x is the variable name, get value by evaluating the exp (dont worry about  body)
+ 
+--eval (Declare decls body) env = eval body newEnv
+--  where vars = map newEnv decls
+--the underscore is a fill in the blank for a function that gets a list of variable (names?)
+--        newEnv = zip vars (values) : env
+
+
+--the following is good you just have to generate the values
+--eval (Declare decls body) env = eval body newEnv
+--  where vars = map newEnv decls
+--        values = --for each e in expresion eval e env (probs a diff solution had 2 maps)
+--        newEnv = zip vars values
+
+--the following is good you just have to generate the values
+--eval (Declare decls body) env = eval body newEnv
+--  where vars = map newEnv decls
+--        values = values
+--        newEnv = zip vars values
+
+--the following is good you just have to generate the values
+--eval (Declare decls body) env = eval body newEnv
+--  where vars = map newEnv decls
+--the underscore is a fill in the blank for a function that gets a list of variable (names?)
+--        newEnv = zip vars values
 -----------------------------------------------------------------
 eval (RecDeclare x exp body) env    = eval body newEnv
   where newEnv = (x, eval exp newEnv) : env

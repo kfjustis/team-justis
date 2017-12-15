@@ -44,7 +44,6 @@ prob4 :: Bool -> a -> a -> a
 prob4 b x y
     | b == True = x
     | otherwise = y
-
 -- prob5
 -- @type
 -- @param  Integer
