@@ -22,6 +22,36 @@ import System.Console.Haskeline
 --        ^^ This requires installing haskeline: cabal update && cabal install haskeline
 -}
 
+{-
+12/6/2017
+initial env: []
+    (x, 1)
+    (y, 2)
+
+    where variables = map fst decls
+          expression = map snd decls
+          value =   <- for each e in expression eval e env
+          newEnv = zip variables values
+                                        ^
+                                        |
+                                        don't forget to add the old env to the end with ++
+                                        otherwise exp1 will cause an error
+
+-there is a function that flips arguments
+
+evaluate ( ) `shouldThrow` anyException for test x1 and x4
+
+(execute $ parseExp ("var x = 5;" ++ "var f = function(y) { var y = x * y; function (x) {x + y} };" ++
+"var g = f(2);" ++ "g(5)")) == (IntV 15)
+
+results:
+you will get unbound error on the first three if you don't add the oldEnv back in
+exp1 = 11
+exp2 = 16
+exp3 = 14
+exp4 = variable is unbound
+-}
+
 
 --
 -- The parsing function, parseExp :: String -> Exp, is defined for you.
@@ -36,7 +66,7 @@ facrec   = parseExp ("rec fac = function(n) { if (n==0) 1 else n * fac(n-1) };" 
 exp1     = parseExp "var a = 3; var b = 8; var a = b, b = a; a + b"
 exp2     = parseExp "var a = 3; var b = 8; var a = b; var b = a; a + b"
 exp3     = parseExp "var a = 2, b = 7; (var m = 5 * a, n = b - 1; a * n + b / m) + a"
-exp4     = parseExp "var a = 2, b = 7; (var m = 5 * a, n = m - 1; a * n + b / m) + a"         
+exp4     = parseExp "var a = 2, b = 7; (var m = 5 * a, n = m - 1; a * n + b / m) + a"
 -- N.b.,                                                  ^^^ is a free occurence of m (by Rule 2)
 
 -----------------
@@ -62,7 +92,7 @@ eval (RecDeclare x exp body) env    = eval body newEnv
 eval (Call fun arg) env = eval body newEnv
   where ClosureV x body closeEnv    = eval fun env
         newEnv = (x, eval arg env) : closeEnv
-        
+
 -- Use this function to run your eval solution.
 execute :: Exp -> Value
 execute exp = eval exp []
@@ -98,7 +128,3 @@ process iline  = do
   repl
    where e = parseExp iline
          v = eval e []
-
-
-
-
