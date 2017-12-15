@@ -84,10 +84,21 @@ eval (Variable x) env               = fromJust x (lookup x env)
         fromJust x Nothing          = errorWithoutStackTrace ("Variable " ++ x ++ " unbound!")
 eval (Function x body) env          = ClosureV x body env
 -----------------------------------------------------------------
-eval (Declare x [(x,exp)] body) env = eval body newEnv         -- This clause needs to be changed.
-  where newEnv = (x, eval exp env) : env                       --
-        x is the variable name, get value by evaluating the exp (dont worry about  body)
- 
+--eval (Declare [(x,exp)] body) env = eval body newEnv           -- This clause needs to be changed.
+eval (Declare decls body) env = eval body newEnv
+  --where newEnv = (x, eval exp env) : env                       --
+  where variables = map fst decls
+        expressions = map snd decls
+        values = map (eval (head (expressions))) [env]
+        {--values = map (eval (helper (expressions []))) [env]
+            where
+                helper :: [Exp] -> [Exp] -> Exp
+                helper x:rest str = helper rest x
+                helper []--}
+        newEnv = zip variables values ++ env
+-----------------------------------------------------------------
+--        x is the variable name, get value by evaluating the exp (dont worry about body)
+
 --eval (Declare decls body) env = eval body newEnv
 --  where vars = map newEnv decls
 --the underscore is a fill in the blank for a function that gets a list of variable (names?)
@@ -153,3 +164,17 @@ process iline  = do
   repl
    where e = parseExp iline
          v = eval e []
+
+-- Hspec Test Land
+test_prob1 :: IO ()
+test_prob1 = hspec $ do
+    describe "prob1" $ do
+        it "returns 11 when given exp1" $
+            execute exp1 `shouldBe` IntV 11
+        it "returns 16 when given exp2" $
+            execute exp2 `shouldBe` IntV 16
+        it "returns 14 when given exp3" $
+            execute exp3 `shouldBe` IntV 14
+        context "when encountering unbound variable" $ do
+            it "should return an error when given exp4" $ do
+                evaluate (execute exp4) `shouldThrow` anyException
