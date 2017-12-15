@@ -51,7 +51,7 @@ eval (If a b c) env                 = let BoolV test = eval a env
                                       in if test then  eval b env else eval c env
 eval (Variable x) env               = fromJust x (lookup x env)
   where fromJust x (Just v)         = v
-        fromJust x Nothing          = errorWithoutStackTrace ("Variable " ++ x ++ " unbound!")
+        fromJust x Nothing          = error ("Variable " ++ x ++ " unbound!")
 eval (Function x body) env          = ClosureV x body env
 -----------------------------------------------------------------
 --eval (Declare x [(x,exp)] body) env = eval body newEnv         -- This clause needs to be changed.
