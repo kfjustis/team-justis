@@ -22,6 +22,36 @@ import System.Console.Haskeline
 --        ^^ This requires installing haskeline: cabal update && cabal install haskeline
 -}
 
+{-
+12/6/2017
+initial env: []
+    (x, 1)
+    (y, 2)
+
+    where variables = map fst decls
+          expression = map snd decls
+          value =   <- for each e in expression eval e env
+          newEnv = zip variables values
+                                        ^
+                                        |
+                                        don't forget to add the old env to the end with ++
+                                        otherwise exp1 will cause an error
+
+-there is a function that flips arguments
+
+evaluate ( ) `shouldThrow` anyException for test x1 and x4
+
+(execute $ parseExp ("var x = 5;" ++ "var f = function(y) { var y = x * y; function (x) {x + y} };" ++
+"var g = f(2);" ++ "g(5)")) == (IntV 15)
+
+results:
+you will get unbound error on the first three if you don't add the oldEnv back in
+exp1 = 11
+exp2 = 16
+exp3 = 14
+exp4 = variable is unbound
+-}
+
 
 --
 -- The parsing function, parseExp :: String -> Exp, is defined for you.
@@ -36,7 +66,7 @@ facrec   = parseExp ("rec fac = function(n) { if (n==0) 1 else n * fac(n-1) };" 
 exp1     = parseExp "var a = 3; var b = 8; var a = b, b = a; a + b"
 exp2     = parseExp "var a = 3; var b = 8; var a = b; var b = a; a + b"
 exp3     = parseExp "var a = 2, b = 7; (var m = 5 * a, n = b - 1; a * n + b / m) + a"
-exp4     = parseExp "var a = 2, b = 7; (var m = 5 * a, n = m - 1; a * n + b / m) + a"         
+exp4     = parseExp "var a = 2, b = 7; (var m = 5 * a, n = m - 1; a * n + b / m) + a"
 -- N.b.,                                                  ^^^ is a free occurence of m (by Rule 2)
 
 -----------------
@@ -54,16 +84,18 @@ eval (Variable x) env               = fromJust x (lookup x env)
         fromJust x Nothing          = error ("Variable " ++ x ++ " unbound!")
 eval (Function x body) env          = ClosureV x body env
 -----------------------------------------------------------------
---eval (Declare x [(x,exp)] body) env = eval body newEnv         -- This clause needs to be changed.
---  where newEnv = (x, eval exp env) : env                       --
-        --x is the variable name, get value by evaluating the exp (dont worry about  body)
- 
+--eval (Declare [(x,exp)] body) env = eval body newEnv           -- This clause needs to be changed.
 eval (Declare decls body) env = eval body newEnv
-  where vars = map newEnv decls
-        values = values
-        --values = map eval (If eval (Literal v) env eval (Unary op a) env eval (Binary op x exp) env) values
-        newEnv = zip vars values
-
+  --where newEnv = (x, eval exp env) : env                       --
+  where variables = map fst decls
+        expressions = map snd decls
+        values = map (eval (head (expressions))) [env]
+        {--values = map (eval (helper (expressions []))) [env]
+            where
+                helper :: [Exp] -> [Exp] -> Exp
+                helper x:rest str = helper rest x
+                helper []--}
+        newEnv = zip variables values ++ env
 
 --the following is good you just have to generate the values
 --eval (Declare decls body) env = eval body newEnv
@@ -88,7 +120,7 @@ eval (RecDeclare x exp body) env    = eval body newEnv
 eval (Call fun arg) env = eval body newEnv
   where ClosureV x body closeEnv    = eval fun env
         newEnv = (x, eval arg env) : closeEnv
-        
+
 -- Use this function to run your eval solution.
 execute :: Exp -> Value
 execute exp = eval exp []
@@ -125,6 +157,16 @@ process iline  = do
    where e = parseExp iline
          v = eval e []
 
-
-
-
+-- Hspec Test Land
+test_prob1 :: IO ()
+test_prob1 = hspec $ do
+    describe "prob1" $ do
+        it "returns 11 when given exp1" $
+            execute exp1 `shouldBe` IntV 11
+        it "returns 16 when given exp2" $
+            execute exp2 `shouldBe` IntV 16
+        it "returns 14 when given exp3" $
+            execute exp3 `shouldBe` IntV 14
+        context "when encountering unbound variable" $ do
+            it "should return an error when given exp4" $ do
+                evaluate (execute exp4) `shouldThrow` anyException
