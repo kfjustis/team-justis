@@ -54,14 +54,15 @@ eval (Variable x) env               = fromJust x (lookup x env)
         fromJust x Nothing          = errorWithoutStackTrace ("Variable " ++ x ++ " unbound!")
 eval (Function x body) env          = ClosureV x body env
 -----------------------------------------------------------------
-eval (Declare x [(x,exp)] body) env = eval body newEnv         -- This clause needs to be changed.
-  where newEnv = (x, eval exp env) : env                       --
-        x is the variable name, get value by evaluating the exp (dont worry about  body)
+--eval (Declare x [(x,exp)] body) env = eval body newEnv         -- This clause needs to be changed.
+--  where newEnv = (x, eval exp env) : env                       --
+        --x is the variable name, get value by evaluating the exp (dont worry about  body)
  
---eval (Declare decls body) env = eval body newEnv
---  where vars = map newEnv decls
---the underscore is a fill in the blank for a function that gets a list of variable (names?)
---        newEnv = zip vars (values) : env
+eval (Declare decls body) env = eval body newEnv
+  where vars = map newEnv decls
+        values = values
+        --values = map eval (If eval (Literal v) env eval (Unary op a) env eval (Binary op x exp) env) values
+        newEnv = zip vars values
 
 
 --the following is good you just have to generate the values
