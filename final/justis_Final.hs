@@ -89,7 +89,8 @@ eval (Declare decls body) env = eval body newEnv
   --where newEnv = (x, eval exp env) : env                       --
   where variables = map fst decls
         expressions = map snd decls
-        values = map (eval (head (expressions))) [env]
+        values = foo expressions [[env]]
+        --values = map (eval (head (expressions))) [env] --getting first in list every time
         {--values = map (eval (helper (expressions []))) [env]
             where
                 helper :: [Exp] -> [Exp] -> Exp
@@ -97,6 +98,9 @@ eval (Declare decls body) env = eval body newEnv
                 helper []--}
         newEnv = zip variables values ++ env
 
+--foo :: [a] -> [b] -> [c]
+--foo (x:xs) (y:ys) = map (eval x) y ++ foo xs ys
+--foo _ _           = error ("dunno")
 --the following is good you just have to generate the values
 --eval (Declare decls body) env = eval body newEnv
 --  where vars = map newEnv decls
@@ -156,6 +160,12 @@ process iline  = do
   repl
    where e = parseExp iline
          v = eval e []
+
+--Nathans Hidden Helper Functions
+foo :: [Exp] -> [[Env]] -> [Value]
+foo (x:xs) (y:ys) = map (eval x) y ++ foo xs ys
+foo (x:xs) []     = map (eval x) [] ++ foo xs []
+foo _ _           = error ("dunno")
 
 -- Hspec Test Land
 test_prob1 :: IO ()
